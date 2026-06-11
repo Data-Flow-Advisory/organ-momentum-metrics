@@ -1,0 +1,31 @@
+{
+  "organ": "organ-momentum-metrics",
+  "source_module": "app/services/momentum_metrics.py",
+  "capability": "Pure per-completion classification policy for the platform momentum curves (Useful Output Rate + Self-improvement Rate): decides whether one completed work item counts as useful / throttle_skip / improvement.",
+  "contract": "decide(state, context) -> {output, rationale, self_metric}",
+  "ports": {
+    "input": {
+      "state.result_json": "the completed item's result envelope (summary, findings, memory_candidates, files_changed, spawn_tasks, sharpening_pct)",
+      "context.skip_patterns": "optional list of regex strings overriding the built-in scheduler-throttle patterns",
+      "context.useful_summary_min_len": "optional int, default 20"
+    },
+    "output": {
+      "output.classification": "one of useful | throttle_skip | empty",
+      "output.is_useful": "bool",
+      "output.is_throttle_skip": "bool",
+      "output.is_improvement": "bool",
+      "output.has_tenant_memory": "bool",
+      "output.memory_candidate_count": "int",
+      "output.sharpening_pct": "float | null",
+      "output.useful_reasons": "list of usefulness signals",
+      "self_metric.confidence": "0.0 on empty/malformed state"
+    }
+  },
+  "_checked": {
+    "corpus_checked": "2026-06-11",
+    "oss_checked": "2026-06-11",
+    "corpus_verdict": "keep",
+    "oss_verdict": "build",
+    "notes": "CORPUS: not a duplicate. The three momentum-lane organs (organ-momentum-metrics, organ-momentum-outcomes, organ-efficiency-regression) extract distinct pure policies from three distinct source services. This organ is the per-completion usefulness classifier (mirrors momentum_metrics.py: _is_summary_throttle_skip / _is_useful / _has_tenant_scope_memory); outcomes computes PRs-merged-per-day; efficiency-regression computes improvement/regression deltas. No corpus overlap; faithful mirror verified via check_contract.py (4/4) + test_organ.py (39 passed). OSS: no adopt-candidate. Bespoke domain-specific classification over DataFlow work-item momentum semantics (useful_reasons, throttle skip regexes, tenant-memory signal, sharpening_pct); stdlib-only with no external dependency. No permissive OSS library supersedes it."
+  }
+}
