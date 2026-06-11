@@ -1,0 +1,13 @@
+{
+  "state": {
+    "result_json": {
+      "summary": "Documented the YPZ ingestion env-var contract and persisted the gotcha tenant-wide.",
+      "files_changed": ["docs/ypz.md"],
+      "memory_candidates": [
+        {"name": "ypz-db-url-env-only", "scope": "tenant"},
+        {"name": "ingest-into-domain-project", "scope": "persona"}
+      ]
+    }
+  },
+  "context": {}
+}

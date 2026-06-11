@@ -1,0 +1,27 @@
+name: conformance
+# Every organ proves itself before it's trusted: its decide() must satisfy the
+# CONTRACT.md shape on every sample, and its tests must pass. A brick that drifts
+# from the contract (no top-level organ.py, a renamed entrypoint, a malformed
+# return) goes RED here — so the always-fed train and the A/B judgment layer only
+# ever compose CONFORMING organs.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Contract — decide() emits {output, rationale, self_metric.confidence} on every sample
+        run: python3 check_contract.py
+
+      - name: Tests
+        run: |
+          python -m pip install --quiet pytest
+          python -m pytest -q

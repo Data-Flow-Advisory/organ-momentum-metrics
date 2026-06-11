@@ -1,0 +1,9 @@
+{
+  "state": {
+    "result_json": {
+      "summary": "null cycle — no new commands, drift resolved, nothing to do",
+      "findings": ["checked the queue", "all stale"]
+    }
+  },
+  "context": {}
+}

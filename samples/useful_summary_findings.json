@@ -1,0 +1,16 @@
+{
+  "state": {
+    "result_json": {
+      "summary": "Refactored the blueprint cache key to include tenant_id and added a regression test for the Day 106 cross-tenant leak.",
+      "findings": [
+        "Cache was keyed on signature only",
+        "Added f-string tenant prefix"
+      ],
+      "memory_candidates": [
+        {"name": "cache-key-needs-tenant", "scope": "persona"}
+      ],
+      "sharpening_pct": 8.0
+    }
+  },
+  "context": {}
+}
